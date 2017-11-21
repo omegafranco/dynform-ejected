@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
 import SimpleField from './components/simple_field';
 import SimpleSelect from './components/simple_select';
 import Row from './components/row';
 import meta from './metadata.js';
 import './DynForm.css';
+import axios from 'axios';
 
 class DynForm extends Component {
   constructor(props){
@@ -13,11 +13,20 @@ class DynForm extends Component {
     this.rowBuffer = [];
     
     this.metadata = JSON.parse(this.props.metadata) || meta;
+    this.state = { content : {}};
 
-    this.processForm();
+    this.getFormData();
+  }
+  
+  getFormData(){
+    axios.get(`${this.metadata.source}/11`)
+    .then(res => {
+      const content = res.data;
+      this.renderForm(content);
+    });
   }
 
-  processForm(){
+  renderForm(content){
       const FIELDS = this.metadata.fields;
       const MAXWIDTH = 12;
       let widthOffset = 0;
@@ -34,6 +43,7 @@ class DynForm extends Component {
                       fieldname={field.parameters.fieldname}
                       label={field.parameters.label}
                       class={CSSCLASS}
+                      value={content[field.parameters.fieldname]}
                 />);
               break;
           case "simpleselect":
@@ -41,23 +51,26 @@ class DynForm extends Component {
                 <SimpleSelect 
                       key={field.parameters.fieldname} 
                       fieldname={field.parameters.fieldname}
-                      options={field.parameters.options}
+                      options={field.parameters.optionsUrl}
                       label={field.parameters.label}
                       class={CSSCLASS}
+                      value={content[field.parameters.fieldname]}
                 />);
               break;
           default:
-              console.log("Nothing to do.");
+              console.log("Campo não reconhecido.");
         }
         
         widthOffset += field.width;
         //Imprime row quando soma width dos filhos sao maiores que MAXWIDTH
         //Imprime row quando estiver na ultima posição de FIELDS
-        if (widthOffset >= MAXWIDTH || field == FIELDS[FIELDS.length -1]){
+        if (widthOffset >= MAXWIDTH || field === FIELDS[FIELDS.length -1]){
           this.rowBuffer.push(<Row>{childrenBuffer}</Row>);
           widthOffset = 0;
           childrenBuffer = [];
         }
+        // Para redesenhar
+        this.setState({content});
       }
   }
   render() {

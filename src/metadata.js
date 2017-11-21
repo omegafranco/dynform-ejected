@@ -1,4 +1,4 @@
-let meta = {
+const meta = {
 	"fields": [{
 		"type": "simplefield",
 		"width": 12,
@@ -39,7 +39,8 @@ let meta = {
 			}, {
 				"value": "RJ",
 				"label": "Rio de Janeiro"
-			}]
+			}],
+			"optionsUrl": "http://localhost:5000/estados"
 		}
 	}, {
 		"type": "simpleselect",
@@ -53,9 +54,11 @@ let meta = {
 			},{
 				"value": "BR",
 				"label": "Brasil"
-			}]
+			}],
+			"optionsUrl": "http://localhost:5000/paises"
 		}
-	} ]
+	} ],
+	"source" : "http://localhost:5000/registros"
 };
 
 export default meta;

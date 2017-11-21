@@ -1,32 +1,39 @@
 import React, { Component } from 'react';
 // {Component} = const Component = React.Component
+import axios from 'axios';
 
 class SimpleSelect extends Component {
     constructor(props) {
         super(props);
 
-        this.optionsBuffer = [];
-        this.state = { value: ''};
-        this.options = this.props.options;
-        this.processOptions();
+        this.state = { 
+            value: props.value,
+            options:[]
+        };
+        this.getOptions();
     }
 
-    processOptions(){
-        for (const option of this.options){
-            this.optionsBuffer.push (<option key={option.value} value={option.value}>{option.label}</option>)
-        }
+    getOptions() {
+        axios.get(this.props.options)
+        .then(res => {
+          this.setState({options: res.data});
+        });
     }
     render() {
         // arrow function
+        console.log("state: "+ JSON.stringify(this.state));
         return (
                 <div className={"form-group " + this.props.class} >
                 {this.props.label ? <label htmlFor={this.props.fieldname} >{this.props.label}</label> : "" }
                     <select 
                         id={this.props.fieldname}
+                        name={this.props.fieldname}
                         value={this.state.value}
                         onChange={event => this.setState({ value: event.target.value })} 
                         className="form-control">
-                    {this.optionsBuffer}
+                    {this.state.options.map((option) => {
+                        return <option key={option.id} value={option.id}>{option.nome}</option>
+                    }) }
                     </select>
                 </div>
         );       
