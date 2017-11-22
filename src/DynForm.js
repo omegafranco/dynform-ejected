@@ -19,7 +19,7 @@ class DynForm extends Component {
   }
   
   getFormData(){
-    axios.get(`${this.metadata.source}/11`)
+    axios.get(`${this.metadata.source}/${this.props.subject}`)
     .then(res => {
       const content = res.data;
       this.renderForm(content);

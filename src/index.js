@@ -8,8 +8,9 @@ let lista = document.getElementsByTagName('dynform');
 
 for (let dynform of lista) {
     // console.log ("#1:"+lista[i].getAttribute('metadata'));
-    var metadata = dynform.getAttribute('metadata');
-    ReactDOM.render(<DynForm metadata={metadata} />, dynform);
+    const metadata = dynform.getAttribute('metadata');
+    const subject = dynform.getAttribute('subject') || "";
+    ReactDOM.render(<DynForm metadata={metadata} subject={subject}/>, dynform);
 }
 
 // registerServiceWorker();
