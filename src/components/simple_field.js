@@ -9,7 +9,6 @@ class SimpleField extends Component {
     }
 
     render() {        
-        // arrow function
         return (
             <div className={"form-group " + this.props.class} >
                 {this.props.label ? <label htmlFor={this.props.fieldname} >{this.props.label}</label> : "" }

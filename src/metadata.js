@@ -34,11 +34,11 @@ const meta = {
 			"label": "Estado",
 			"fieldname": "estado",
 			"options": [{
-				"value": "MG",
-				"label": "Minas Gerais"
+				"id": "MG",
+				"nome": "Minas Gerais"
 			}, {
-				"value": "RJ",
-				"label": "Rio de Janeiro"
+				"id": "RJ",
+				"nome": "Rio de Janeiro"
 			}],
 			"optionsUrl": "http://localhost:5000/estados"
 		}
@@ -49,11 +49,11 @@ const meta = {
 			"label": "País",
 			"fieldname": "pais",
 			"options": [ {
-				"value": "AL",
-				"label": "Albania"
+				"id": "AL",
+				"nome": "Albania"
 			},{
-				"value": "BR",
-				"label": "Brasil"
+				"id": "BR",
+				"nome": "Brasil"
 			}],
 			"optionsUrl": "http://localhost:5000/paises"
 		}

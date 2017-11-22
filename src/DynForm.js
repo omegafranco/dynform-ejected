@@ -32,9 +32,9 @@ class DynForm extends Component {
       let widthOffset = 0;
       let childrenBuffer = [];
 
-      for (let field of FIELDS){
-        const CSSCLASS = "col-md-" + field.width;
-
+      for (let i = 0; i < FIELDS.length; i++){
+        const field = FIELDS[i];
+        const CSSCLASS = "col-md-" + field.width;        
         switch (field.type) {
           case "simplefield":
               childrenBuffer.push (
@@ -51,13 +51,18 @@ class DynForm extends Component {
                 <SimpleSelect 
                       key={field.parameters.fieldname} 
                       fieldname={field.parameters.fieldname}
-                      options={field.parameters.optionsUrl}
+                      options={field.parameters.options}
+                      optionsUrl={field.parameters.optionsUrl}
                       label={field.parameters.label}
                       class={CSSCLASS}
                       value={content[field.parameters.fieldname]}
                 />);
               break;
           default:
+              childrenBuffer.push (
+              <div 
+                key={field.parameters.fieldname} 
+                className="form-control">Campo não reconhecido</div>);
               console.log("Campo não reconhecido.");
         }
         
@@ -65,7 +70,7 @@ class DynForm extends Component {
         //Imprime row quando soma width dos filhos sao maiores que MAXWIDTH
         //Imprime row quando estiver na ultima posição de FIELDS
         if (widthOffset >= MAXWIDTH || field === FIELDS[FIELDS.length -1]){
-          this.rowBuffer.push(<Row>{childrenBuffer}</Row>);
+          this.rowBuffer.push(<Row key={i}>{childrenBuffer}</Row>);
           widthOffset = 0;
           childrenBuffer = [];
         }
@@ -75,7 +80,7 @@ class DynForm extends Component {
   }
   render() {
     return (
-      <div className="">
+      <div className="" key={this.props.key}>
         {this.rowBuffer}
       </div>
     );

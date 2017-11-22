@@ -8,20 +8,20 @@ class SimpleSelect extends Component {
 
         this.state = { 
             value: props.value,
-            options:[]
+            options: props.options
         };
         this.getOptions();
     }
 
     getOptions() {
-        axios.get(this.props.options)
+        axios.get(this.props.optionsUrl)
         .then(res => {
-          this.setState({options: res.data});
+          if (res){
+            this.setState({options: res.data});
+          }
         });
     }
     render() {
-        // arrow function
-        console.log("state: "+ JSON.stringify(this.state));
         return (
                 <div className={"form-group " + this.props.class} >
                 {this.props.label ? <label htmlFor={this.props.fieldname} >{this.props.label}</label> : "" }
