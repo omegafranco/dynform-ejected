@@ -2,13 +2,15 @@ const meta = {
 	"fields": [{
 		"type": "simplefield",
 		"width": 12,
+		"srvatt": "nome",
 		"parameters": {
-			"label": "Nome",
-			"fieldname": "nome"
+		  "label": "Nome",
+		  "fieldname": "nome"
 		}
-	}, {
+	  },{
 		"type": "simplefield",
 		"width": 12,
+		"srvatt": "email",
 		"parameters": {
 			"label": "Email",
 			"fieldname": "email"
@@ -16,6 +18,7 @@ const meta = {
 	}, {
 		"type": "simplefield",
 		"width": 12,
+		"srvatt": "endereco",
 		"parameters": {
 			"label": "Endereço",
 			"fieldname": "endereco"
@@ -23,6 +26,7 @@ const meta = {
 	}, {
 		"type": "simplefield",
 		"width": 4,
+		"srvatt": "cep",
 		"parameters": {
 			"label": "CEP",
 			"fieldname": "cep"
@@ -30,6 +34,7 @@ const meta = {
 	},{
 		"type": "simpleselect",
 		"width": 4,
+		"srvatt": "estado",
 		"parameters": {
 			"label": "Estado",
 			"fieldname": "estado",
@@ -40,11 +45,13 @@ const meta = {
 				"id": "RJ",
 				"nome": "Rio de Janeiro"
 			}],
-			"optionsUrl": "http://localhost:5000/estados"
+			"optionsUrl": "http://10.24.144.156:5000/estados",
+
 		}
 	}, {
 		"type": "simpleselect",
 		"width": 4,
+		"srvatt": "pais",
 		"parameters": {
 			"label": "País",
 			"fieldname": "pais",
@@ -55,10 +62,10 @@ const meta = {
 				"id": "BR",
 				"nome": "Brasil"
 			}],
-			"optionsUrl": "http://localhost:5000/paises"
+			"optionsUrl": "http://10.24.144.156:5000/paises",
 		}
 	} ],
-	"source" : "http://localhost:5000/registros"
+	"source" : "http://10.24.144.156:5000/registros"
 };
 
 export default meta;

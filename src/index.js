@@ -6,11 +6,30 @@ import DynForm from './DynForm';
 
 let lista = document.getElementsByTagName('dynform');
 
-for (let dynform of lista) {
-    // console.log ("#1:"+lista[i].getAttribute('metadata'));
-    const metadata = dynform.getAttribute('metadata');
-    const subject = dynform.getAttribute('subject') || "";
-    ReactDOM.render(<DynForm metadata={metadata} subject={subject}/>, dynform);
+var observer = new MutationObserver(function(mutations) {
+    mutations.forEach(function(mutation) {
+        console.log("mudança ocorreu");
+        console.log("target compare" + mutation.target===lista[0]);
+        drawApp();
+        
+    });
+  });
+
+for (let dynform of lista){
+    observer.observe(dynform, { attributes: true });
 }
+
+
+function drawApp(){
+    for (let dynform of lista) {        
+        const metadata = dynform.getAttribute('metadata');
+        const subject = dynform.getAttribute('subject') || "";
+        if (metadata){
+            ReactDOM.render(<DynForm metadata={metadata} subject={subject}/>, dynform);
+        }
+    }
+}
+
+drawApp();
 
 // registerServiceWorker();

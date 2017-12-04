@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import SimpleField from './components/simple_field';
 import SimpleSelect from './components/simple_select';
+import MagicSelect from './components/magic_select';
 import Row from './components/row';
-import meta from './metadata.js';
 import './DynForm.css';
 import axios from 'axios';
 
@@ -11,14 +11,20 @@ class DynForm extends Component {
     super(props);
 
     this.rowBuffer = [];
-    
-    this.metadata = JSON.parse(this.props.metadata) || meta;
+    this.metadata = (this.props.metadata ? JSON.parse(this.props.metadata) : null);
     this.state = { content : {}};
 
     this.getFormData();
   }
   
   getFormData(){
+    if (!this.metadata){
+      this.rowBuffer.push (
+        <div className="form-control">Metadado inválido.</div>
+      );
+        console.log("Metadado inválido.");
+      return ;
+    }
     axios.get(`${this.metadata.source}/${this.props.subject}`)
     .then(res => {
       const content = res.data;
@@ -43,7 +49,7 @@ class DynForm extends Component {
                       fieldname={field.parameters.fieldname}
                       label={field.parameters.label}
                       class={CSSCLASS}
-                      value={content[field.parameters.fieldname]}
+                      value={content[field.srvatt]}
                 />);
               break;
           case "simpleselect":
@@ -55,7 +61,15 @@ class DynForm extends Component {
                       optionsUrl={field.parameters.optionsUrl}
                       label={field.parameters.label}
                       class={CSSCLASS}
-                      value={content[field.parameters.fieldname]}
+                      value={content[field.srvatt]}
+                />);
+              break;
+          case "magicselect":
+              childrenBuffer.push (
+                <MagicSelect 
+                      key={field.parameters.fieldname}
+                      fieldname={field.parameters.fieldname}
+                      class={CSSCLASS}
                 />);
               break;
           default:
