@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 // {Component} = const Component = React.Component
-import axios from 'axios';
 
 class SimpleSelect extends Component {
     constructor(props) {
@@ -10,16 +9,13 @@ class SimpleSelect extends Component {
             value: props.value,
             options: props.options
         };
-        this.getOptions();
+        // this.getOptions();
     }
 
-    getOptions() {
-        axios.get(this.props.optionsUrl)
-        .then(res => {
-          if (res){
-            this.setState({options: res.data});
-          }
-        });
+    componentDidMount(){
+        fetch(this.props.optionsUrl)
+        .then(response => response.json())
+        .then(data => this.setState({options: data}));
     }
     render() {
         return (
