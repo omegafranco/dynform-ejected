@@ -1,33 +1,10 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
+import createModule from 'react-standalone';
+import schema from './DynForm-schema';
 import DynForm from './DynForm';
+import methods from './DynForm-methods';
+import './index.css';
 import meta from './metadata.json';
 //import registerServiceWorker from './registerServiceWorker';
 
-let lista = document.getElementsByTagName('dynform');
 
-let observer = new MutationObserver(mutations => mutations.map(mutation => drawElement(mutation.target)));
-
-for (let dynform of lista){
-    observer.observe(dynform, { attributes: true });
-}
-
-function drawElement(dynform){
-    console.log("subject"+dynform.getAttribute('subject'));
-    const metadata = dynform.getAttribute('metadata') || JSON.stringify(meta);
-    const subject = dynform.getAttribute('subject') || "";
-    if (metadata){
-        ReactDOM.render(<DynForm metadata={metadata} subject={subject}/>, dynform);
-    }
-}
-
-function drawApp(){
-    for (let dynform of lista) {        
-        drawElement(dynform);
-    }
-}
-
-drawApp();
-
-// registerServiceWorker();
+export default createModule('dynform', { schema, methods, DynForm });
